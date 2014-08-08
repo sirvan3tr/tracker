@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<style type="text/css">
+		body {
+			font-family: 'Open Sans', sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+		.button {
+			background-color: orange;
+			padding: 10px;
+			display: inline-block;
+		}
+	</style>
+</head>
+<body>
+<div class="button">Click me</div>
+
+<a class="button" href="http://google.com" title="Go to google">Google</a>
+<a class="button" href="http://yahoo.com" title="Go to yahoo">Yahoo</a>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var d=[new Date()];
+		$('body').on('click', '*' , function(e) {
+			var elementType = this.tagName,
+				userAgent = navigator.userAgent,
+				url = window.location.href,
+				clickt = new Date();
+
+			$.get("http://ipinfo.io", function(response) {
+			    d.push(response.ip, response.city, response.country)
+			}, "jsonp");
+			d.push(elementType, userAgent, url, clickt);
+
+			pe = { "elementType": this.tagName,
+				"userAgent": navigator.userAgent,
+				"url": window.location.href,
+				"clickt": new Date(),
+			}
+			p = {
+				"test": "hello world",
+				"world": "go",
+			}
+
+			//var p = JSON.stringify(d);
+			p = $(p).serialize();
+			console.log(p);
+			$.ajax({ url: 'http://192.168.254.227/tracker/tracker.php',
+              data: p,
+              type: 'post',
+              dataType: 'json',
+              beforeSend: function(){
+                
+              },
+              success: function(data) {
+              	console.log("the data: "+data);
+              }, // Success function
+            })
+
+		})
+		window.onbeforeunload = function (e) {
+			console.log(d);
+            
+		}
+	});
+</script>
+</body>
+</html>
