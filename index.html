@@ -18,12 +18,31 @@
 </head>
 <body>
 <div class="button">Click me</div>
+<div class="button" onClick="_gaq.push(['_trackEvent', 'Downloads', 'PDF', '/salesForms/orderForm1.pdf']);">gaq</div>
 
 <a class="button" href="http://google.com" title="Go to google">Google</a>
 <a class="button" href="http://yahoo.com" title="Go to yahoo">Yahoo</a>
 
+<a class="button" href="" title="Go to yahoo" >Yahoo</a>
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript">
+_gaq = [];
+function trk(action) {
+	(new Image()).src = (location.protocol == "https:" ? "https:" : "http:") + "//192.168.254.227/g.gif/trk?aid=1&action=";+action;
+}
+
+video.addEventListener("play", function(e) {
+  trk("play");
+});
+
+video.addEventListener("pause", function(e) {
+  trk("pause");
+});
+
+swipe.addEventListener("swipeleft", function(e) {
+  trk("swipeleft");
+});
 	$(function() {
 		var d=[new Date()];
 		$('body').on('click', '*' , function(e) {
@@ -50,22 +69,8 @@
 			//var p = JSON.stringify(d);
 			p = $(p).serialize();
 			console.log(p);
-			$.ajax({ url: 'http://192.168.254.227/tracker/tracker.php',
-              data: p,
-              type: 'post',
-              dataType: 'json',
-              beforeSend: function(){
-                
-              },
-              success: function(data) {
-              	console.log("the data: "+data);
-              }, // Success function
-            })
-
-		})
 		window.onbeforeunload = function (e) {
 			console.log(d);
-            
 		}
 	});
 </script>
